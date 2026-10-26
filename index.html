@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Técnica - Dip de Pimentón | SENA 3441766</title>
+    <!-- Fuentes de Google (CRÍTICO: sin esto no se ve el diseño) -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tu CSS completo -->
+    <style>
+        :root {
+            --fondo-papel: #fcf9f2;
+            --rojo-pimenton: #b93a2a;
+            --verde-oliva: #8e9a65;
+            --azul-suave: #7fa8c9;
+            --crema: #f5ebd6;
+            --texto-oscuro: #333333;
+            --amarillo-suave: #f9e79f;
+            --gris-bloque: #f4f4f4;
+        }
+
+        body {
+            background-color: var(--fondo-papel);
+            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+            font-family: 'Nunito', sans-serif;
+            color: var(--texto-oscuro);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .contenedor-receta {
+            max-width: 850px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* --- BARRA DE HERRAMIENTAS --- */
+        .barra-herramientas {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-herramienta {
+            background-color: var(--azul-suave);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-herramienta:hover { background-color: #5c85a8; }
+        .btn-herramienta.imprimir { background-color: var(--verde-oliva); }
+        .btn-herramienta.imprimir:hover { background-color: #6d774d; }
+        .btn-herramienta.glosario { background-color: var(--rojo-pimenton); }
+        .btn-herramienta.glosario:hover { background-color: #8c291c; }
+
+        /* --- MODALES --- */
+        .modal-fondo {
+            display: none; 
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-contenido {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 700px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 4px solid var(--verde-oliva);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-contenido h2 {
+            font-family: 'Caveat', cursive;
+            color: var(--rojo-pimenton);
+            font-size: 2.5rem;
+            margin-top: 0;
+            text-align: center;
+            border-bottom: 2px dashed #ccc;
+            padding-bottom: 10px;
+        }
+
+        .modal-contenido ul { padding-left: 20px; line-height: 1.6; }
+        .modal-contenido li { margin-bottom: 15px; font-size: 1rem; }
+        .modal-contenido strong { color: var(--azul-suave); }
+
+        /* Estilos del Glosario */
+        .lista-glosario { list-style: none; padding: 0; }
+        .lista-glosario li {
+            background: var(--fondo-papel);
+            border-left: 4px solid var(--azul-suave);
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 0 5px 5px 0;
+        }
+        .lista-glosario strong {
+            color: var(--rojo-pimenton);
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 3px;
+        }
+        .norma-cita {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #444;
+            background: #f0f5f8;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border-left: 3px solid var(--azul-suave);
+            font-style: italic;
+        }
+        .norma-cita strong { color: #2c3e50; font-size: 0.85rem; display: inline; font-style: normal;}
+
+        .btn-cerrar {
+            display: block;
+            margin: 20px auto 0;
+            background-color: var(--rojo-pimenton);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-cerrar:hover { background-color: #8c291c; }
+
+        /* --- ESTILOS DE LA FICHA --- */
+        h1 {
+            font-family: 'Caveat', cursive;
+            color: var(--rojo-pimenton);
+            font-size: 4rem;
+            text-align: center;
+            line-height: 0.9;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #555;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            font-style: italic;
+            font-family: 'Caveat', cursive;
+        }
+
+        .bloque {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            box-shadow: 3px 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            border: 1px solid #eee;
+        }
+
+        .cinta {
+            position: absolute;
+            top: -18px;
+            left: 20px;
+            background-color: var(--crema);
+            padding: 5px 30px;
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: var(--texto-oscuro);
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.15);
+            transform: rotate(-2deg);
+            border-left: 3px dashed #d1c7b3;
+            border-right: 3px dashed #d1c7b3;
+            z-index: 10;
+        }
+
+        .cinta.roja { background-color: #fadbd8; border-color: #e6b0aa; color: var(--rojo-pimenton); }
+        .cinta.verde { background-color: #dcedc1; border-color: #b5d18b; }
+        .cinta.azul { background-color: #d4e6f1; border-color: #a2c4d6; }
+        .cinta.amarilla { background-color: #fff3cd; border-color: #ffeeba; }
+
+        .palabra-clave {
+            color: var(--azul-suave);
+            font-weight: bold;
+            cursor: pointer;
+            border-bottom: 1px dashed var(--azul-suave);
+            transition: color 0.2s;
+        }
+        .palabra-clave:hover { color: var(--rojo-pimenton); border-bottom-color: var(--rojo-pimenton); }
+
+        .checklist-bpm { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .check-item {
+            display: flex; align-items: flex-start; background: var(--gris-bloque);
+            padding: 12px; border-radius: 6px; border-left: 4px solid var(--azul-suave);
+            font-size: 0.95rem; cursor: pointer;
+        }
+        .check-item input[type="checkbox"] {
+            margin-right: 12px; margin-top: 3px; transform: scale(1.3);
+            cursor: pointer; accent-color: var(--rojo-pimenton);
+        }
+        .check-item.completado { background: #e8f5e9; border-left-color: #4caf50; text-decoration: line-through; color: #777; }
+
+        .grid-ingredientes { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 30px; }
+        .ingrediente-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 15px; border-bottom: 1px dotted #ccc; background: #fafafa; border-radius: 5px;
+        }
+        .ingrediente-info { display: flex; align-items: center; font-size: 1.1rem; width: 250px; }
+        .ingrediente-info span.icono { font-size: 1.5rem; margin-right: 12px; }
+        .porcentaje-badge {
+            font-size: 0.85rem; background: var(--azul-suave); color: white;
+            padding: 2px 8px; border-radius: 10px; margin-left: 8px; font-weight: bold;
+        }
+        .ingrediente-input-group { display: flex; align-items: center; }
+        .input-dinamico {
+            font-family: 'Nunito', sans-serif; font-size: 1.2rem; width: 100px; padding: 8px;
+            text-align: right; border: 2px solid #ccc; border-radius: 5px;
+            outline: none; font-weight: bold; color: var(--texto-oscuro);
+        }
+        .input-dinamico.base { border-color: var(--rojo-pimenton); background-color: #fff3cd; color: var(--rojo-pimenton); }
+        .unidad-medida { margin-left: 8px; font-weight: bold; color: #666; width: 30px; }
+
+        .panel-rendimiento {
+            margin-top: 25px; text-align: center; background: #e8f4f8;
+            border: 2px solid var(--azul-suave); padding: 15px; border-radius: 8px; font-size: 1.1rem;
+        }
+        .panel-rendimiento strong { color: #2c3e50; font-size: 1.3rem;}
+
+        .input-evaporacion {
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            font-size: 1.1rem;
+            width: 55px;
+            text-align: center;
+            border: 1.5px solid var(--azul-suave);
+            border-radius: 5px;
+            background: white;
+            color: var(--texto-oscuro);
+            padding: 2px;
+        }
+
+        .flujo-proceso { display: flex; flex-direction: column; align-items: center; margin-top: 30px; }
+        .paso-flujo {
+            background: white; border: 2px solid var(--texto-oscuro); border-radius: 5px;
+            padding: 15px; width: 85%; text-align: center; position: relative;
+            box-shadow: 2px 2px 0px #ccc; z-index: 2;
+        }
+        .paso-flujo strong { display: block; font-size: 1.1rem; color: var(--texto-oscuro); margin-bottom: 5px; }
+        .datos-proceso {
+            display: inline-block; background: #e8f4f8; border: 1px solid var(--azul-suave);
+            color: #2c3e50; padding: 3px 10px; border-radius: 15px; font-size: 0.9rem;
+            font-weight: bold; margin-top: 5px;
+        }
+        .flecha { font-size: 2rem; color: var(--rojo-pimenton); line-height: 1; margin: 5px 0; z-index: 1; }
+
+        .grid-calidad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        .tarjeta-calidad { background: #fff; border: 1px dashed #999; padding: 15px; text-align: center; border-radius: 8px; }
+        .tarjeta-calidad .titulo { font-weight: bold; color: var(--rojo-pimenton); font-size: 1.1rem; }
+        .tarjeta-calidad .valor { font-size: 1.5rem; font-family: 'Caveat', cursive; color: #333; margin-top: 5px; }
+
+        .grid-trazabilidad { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .campo-trazabilidad { display: flex; flex-direction: column; }
+        .campo-trazabilidad label { font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; color: #555;}
+        .campo-trazabilidad input { padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-family: 'Nunito'; }
+
+        .firmas { display: flex; justify-content: space-around; margin-top: 40px; }
+        .firma-linea { border-top: 1px solid #333; width: 40%; text-align: center; padding-top: 5px; font-size: 0.9rem; }
+
+        .banner-final {
+            background-color: #fdebd0; border: 2px solid #e67e22; text-align: center;
+            padding: 18px 15px; border-radius: 20px; font-family: 'Nunito', sans-serif;
+            font-size: 1.05rem; font-weight: bold; color: var(--texto-oscuro); margin-top: 30px;
+            box-shadow: 2px 3px 0px #e67e22; line-height: 1.5;
+        }
+
+        @media (max-width: 600px) {
+            .grid-ingredientes, .checklist-bpm, .grid-calidad, .grid-trazabilidad { grid-template-columns: 1fr; }
+            h1 { font-size: 3rem; }
+            .cinta { font-size: 1.5rem; left: 50%; transform: translateX(-50%) rotate(-2deg); white-space: nowrap; }
+            .firmas { flex-direction: column; align-items: center; gap: 30px; }
+            .firma-linea { width: 80%; }
+            .ingrediente-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .ingrediente-input-group { width: 100%; justify-content: flex-end; }
+            .barra-herramientas { justify-content: center; }
+        }
+
+        /* =========================================================
+           CÓDIGO DE IMPRESIÓN OPTIMIZADO PARA PC
+           ========================================================= */
+        @media print {
+            .barra-herramientas, .modal-fondo { display: none !important; }
+
+            @page {
+                margin: 1cm;
+                size: portrait;
+            }
+
+            body {
+                background: white !important;
+                background-image: none !important;
+                padding: 0;
+                margin: 0;
+                font-size: 11pt;
+            }
+
+            .contenedor-receta { max-width: 100%; }
+
+            .bloque {
+                box-shadow: none !important;
+                border: 1px solid #666 !important;
+                page-break-inside: avoid;
+                margin-bottom: 15px;
+                padding: 15px;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .ingrediente-row { background: white !important; border-bottom: 1px solid #000; }
+            .input-dinamico, .input-evaporacion {
+                border: none !important;
+                background: transparent !important;
+                font-weight: bold;
+                color: black !important;
+                width: auto;
+                padding: 0;
+                text-align: right;
+            }
+
+            .input-dinamico::-webkit-outer-spin-button,
+            .input-dinamico::-webkit-inner-spin-button,
+            .input-evaporacion::-webkit-outer-spin-button,
+            .input-evaporacion::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+            .input-dinamico, .input-evaporacion { -moz-appearance: textfield; }
+
+            h1 { font-size: 2.5rem; color: black !important; margin-top: 20px; }
+            h2 { font-size: 1.5rem !important; color: black !important; }
+            .subtitulo { color: #444 !important; }
+            .cinta { font-size: 1.2rem; padding: 3px 15px; box-shadow: none; border: 1px solid #999; }
+
+            .flecha { display: none; } 
+            .paso-flujo { width: 100%; margin-bottom: 8px; page-break-inside: avoid; padding: 10px; }
+
+            .firmas { margin-top: 30px; }
+            .palabra-clave { color: black !important; border-bottom: none !important; text-decoration: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MODAL DE AYUDA -->
+    <div id="modalAyuda" class="modal-fondo">
+        <div class="modal-contenido">
+            <h2>📖 ¿Cómo usar esta Ficha Técnica?</h2>
+            <ul>
+                <li><strong>1. Verificación BPM:</strong> Marca las casillas del bloque 1 para confirmar las Buenas Prácticas de Manufactura.</li>
+                <li><strong>2. Cálculo Bidireccional:</strong> Modifica cualquier valor en gramos. Si cambias el azúcar, el sistema recalculará el pimentón y todo lo demás automáticamente.</li>
+                <li><strong>3. Rendimiento Ajustable:</strong> Puedes ajustar el % de evaporación estimado para recalcular la masa final y cuántos frascos enteros de 250g obtendrás.</li>
+                <li><strong>4. Glosario y Normatividad:</strong> Si no conoces un término técnico, toca el botón rojo "Glosario". Allí encontrarás la definición y la norma colombiana que la regula.</li>
+                <li><strong>5. Imprimir:</strong> Toca el botón verde "Imprimir Ficha". En computador, esto abrirá el cuadro de diálogo de impresión donde puedes elegir tu impresora o guardar como PDF.</li>
+            </ul>
+            <button class="btn-cerrar" id="btn-cerrar-ayuda">¡Entendido, a producir!</button>
+        </div>
+    </div>
+
+    <!-- MODAL: GLOSARIO TÉCNICO CON NORMATIVIDAD -->
+    <div id="modalGlosario" class="modal-fondo">
+        <div class="modal-contenido">
+            <h2>📚 Glosario Técnico y Normatividad</h2>
+            <ul class="lista-glosario">
+                <li>
+                    <strong>BPM (Buenas Prácticas de Manufactura)</strong>
+                    Principios básicos de higiene y manipulación para garantizar la inocuidad del alimento.
+                    <span class="norma-cita"><strong>Norma aplicable:</strong> Resolución 2674 de 2013 (Ministerio de Salud y Protección Social).</span>
+                </li>
+                <li>
+                    <strong>POES (Procedimientos Operativos Estandarizados de Saneamiento)</strong>
+                    Documentos que describen paso a paso la limpieza y desinfección de áreas, equipos y utensilios.
+                    <span class="norma-cita"><strong>Norma aplicable:</strong> Resolución 2674 de 2013, Título IV.</span>
+                </li>
+                <li>
+                    <strong>°Brix (Grados Brix)</strong>
+                    Concentración de sólidos solubles (principalmente azúcares) en un líquido. En confitados, asegura la conservación y vida útil.
+                    <span class="norma-cita"><strong>Norma aplicable:</strong> Resolución 1407 de 2022 (Criterios microbiológicos).</span>
+                </li>
+                <li>
+                    <strong>pH (Potencial de Hidrógeno)</strong>
+                    Medida de acidez o alcalinidad. Un pH menor a 4.5 inhibe el crecimiento de bacterias patógenas.
+                    <span class="norma-cita"><strong>Norma aplicable:</strong> Resolución 1407 de 2022 (Criterios microbiológicos para alimentos).</span>
+                </li>
+                <li>
+                    <strong>Osmosis</strong>
+                    Proceso de transferencia de masa donde el azúcar penetra en las células del pimentón, expulsando agua y creando un ambiente hostil para microorganismos.
+                    <span class="norma-cita"><strong>Norma aplicable:</strong> Concepto tecnológico. Se relaciona con Resolución 2606 de 2009 (Aditivos).</span>
+                </li>
+                <li>
+                    <strong>Envasado en Caliente</strong>
+                    Técnica de llenado del frasco a temperaturas superiores a 85°C para crear un vacío parcial al enfriarse, evitando la recontaminación.
+                    <span class="norma-cita"><strong>Norma aplicable:</strong> Resolución 683 de 2012 (Materiales en contacto con alimentos) y Resolución 2674 de 2013.</span>
+                </li>
+                <li>
+                    <strong>Inocuidad</strong>
+                    Garantía de que un alimento no causará daño al consumidor cuando se prepare y/o consuma de acuerdo con el uso al que se destina.
+                    <span class="norma-cita"><strong>Norma aplicable:</strong> Ley 09 de 1979 (Medidas Sanitarias).</span>
+                </li>
+                <li>
+                    <strong>Rotulado / Etiquetado</strong>
+                    Información obligatoria en el empaque (ingredientes, fecha, lote, sellos de advertencia).
+                    <span class="norma-cita"><strong>Norma aplicable:</strong> Resolución 5109 de 2005 y Resolución 810 de 2021.</span>
+                </li>
+            </ul>
+            <button class="btn-cerrar" id="btn-cerrar-glosario">Cerrar Glosario</button>
+        </div>
+    </div>
+
+    <div class="contenedor-receta">
+        
+        <!-- BARRA DE HERRAMIENTAS -->
+        <div class="barra-herramientas">
+            <button class="btn-herramienta glosario" id="btn-abrir-glosario">📚 Glosario y Normas</button>
+            <button class="btn-herramienta" id="btn-abrir-ayuda">❓ ¿Cómo usar?</button>
+            <button class="btn-herramienta imprimir" id="btn-imprimir">🖨️ Imprimir Ficha</button>
+        </div>
+
+        <h1>DIP DE PIMENTÓN</h1>
+        <h2 style="font-family: 'Caveat', cursive; font-size: 2.5rem; text-align: center; color: var(--texto-oscuro); margin-bottom: 5px;">Ficha Técnica de Producción</h2>
+        <p class="subtitulo">Cálculo Bidireccional • Ajuste de Formulación en Planta</p>
+
+        <!-- Bloque 1: Prerrequisitos BPM -->
+        <div class="bloque">
+            <div class="cinta azul">1. Prerrequisitos y BPM</div>
+            <div class="checklist-bpm">
+                <label class="check-item"><input type="checkbox"><span><strong>Higienización:</strong> Planta, pisos y desagües lavados (<span class="palabra-clave trigger-glosario">POES</span>).</span></label>
+                <label class="check-item"><input type="checkbox"><span><strong>Utensilios:</strong> Cuchillos, tablas, marmita y balanza sanitizados.</span></label>
+                <label class="check-item"><input type="checkbox"><span><strong>Operario:</strong> Manos lavadas, cofia, tapabocas y delantal limpio.</span></label>
+                <label class="check-item"><input type="checkbox"><span><strong>Materia Prima:</strong> Pimentones lavados y desinfectados con agua potable.</span></label>
+            </div>
+        </div>
+
+        <!-- Bloque 2: Formulación Interactiva -->
+        <div class="bloque">
+            <div class="cinta verde">2. Formulación y Dosificación</div>
+            <p style="text-align: center; font-size: 0.9rem; color: #666; margin-top: 15px; margin-bottom: 0;">
+                💡 <strong>Instrucción:</strong> Modifica el valor en <strong>gramos</strong> de cualquier ingrediente. El sistema recalculará toda la fórmula manteniendo las proporciones técnicas.
+            </p>
+
+            <div class="grid-ingredientes">
+                <div class="ingrediente-row">
+                    <div class="ingrediente-info"><span class="icono">🌶️</span> <span>Pimentón rojo <span class="porcentaje-badge">Base 100%</span></span></div>
+                    <div class="ingrediente-input-group">
+                        <input type="number" id="input-pimenton" class="input-dinamico base" value="1000" min="10" step="10" inputmode="decimal">
+                        <span class="unidad-medida">g</span>
+                    </div>
+                </div>
+                <div class="ingrediente-row">
+                    <div class="ingrediente-info"><span class="icono">💧</span> <span>Agua potable <span class="porcentaje-badge">60%</span></span></div>
+                    <div class="ingrediente-input-group">
+                        <input type="number" id="input-agua" class="input-dinamico" value="600" min="1" step="1" inputmode="decimal">
+                        <span class="unidad-medida">g</span>
+                    </div>
+                </div>
+                <div class="ingrediente-row">
+                    <div class="ingrediente-info"><span class="icono">🍶</span> <span>Vinagre <span class="porcentaje-badge">15%</span></span></div>
+                    <div class="ingrediente-input-group">
+                        <input type="number" id="input-vinagre" class="input-dinamico" value="150" min="1" step="1" inputmode="decimal">
+                        <span class="unidad-medida">g</span>
+                    </div>
+                </div>
+                <div class="ingrediente-row">
+                    <div class="ingrediente-info"><span class="icono">🧂</span> <span>Azúcar <span class="porcentaje-badge">25%</span></span></div>
+                    <div class="ingrediente-input-group">
+                        <input type="number" id="input-azucar" class="input-dinamico" value="250" min="1" step="1" inputmode="decimal">
+                        <span class="unidad-medida">g</span>
+                    </div>
+                </div>
+                <div class="ingrediente-row">
+                    <div class="ingrediente-info"><span class="icono">🥄</span> <span>Sal <span class="porcentaje-badge">2.25%</span></span></div>
+                    <div class="ingrediente-input-group">
+                        <input type="number" id="input-sal" class="input-dinamico" value="22.5" min="0.1" step="0.5" inputmode="decimal">
+                        <span class="unidad-medida">g</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-rendimiento">
+                <strong>📊 Rendimiento Estimado:</strong> <br>
+                Peso total de la mezcla: <span id="lbl-peso-total">—</span> g | 
+                Evaporación: 
+                <input type="number" id="input-evaporacion" class="input-evaporacion" value="25" min="5" max="50" step="1" inputmode="decimal">% 
+                (<span id="lbl-perdida">—</span> g) <br>
+                <strong>Producto final estimado: <span id="lbl-producto-final" style="color: var(--rojo-pimenton); font-size: 1.4rem;">—</span> g</strong>
+                <br><span style="font-size: 0.9rem; color:#444;">(<span id="lbl-frascos">—</span>)</span>
+            </div>
+        </div>
+
+        <!-- Bloque 3: Diagrama de Proceso -->
+        <div class="bloque">
+            <div class="cinta roja">3. Diagrama de Proceso</div>
+            <div class="flujo-proceso">
+                <div class="paso-flujo"><strong>Recepción y Pesaje</strong><span>Ingreso de materia prima a planta.</span></div>
+                <div class="flecha">⬇</div>
+                <div class="paso-flujo"><strong>Lavado y Desinfección</strong><span>Lavado de pimentones con agua potable.</span></div>
+                <div class="flecha">⬇</div>
+                <div class="paso-flujo"><strong>Reducción de Tamaño</strong><span>Corte en cubos de 0.5 x 0.5 cm.</span></div>
+                <div class="flecha">⬇</div>
+                <div class="paso-flujo"><strong>Cocción y <span class="palabra-clave trigger-glosario">Osmosis</span></strong><span>Pimentón + Agua + Azúcar + Sal.</span><br><span class="datos-proceso">⚙️ T° 95°C - 100°C x 10 min.</span></div>
+                <div class="flecha">⬇</div>
+                <div class="paso-flujo"><strong>Adición de Ácido</strong><span>Incorporar vinagre.</span><br><span class="datos-proceso">⚙️ T° ebullición x 5 min.</span></div>
+                <div class="flecha">⬇</div>
+                <div class="paso-flujo"><strong><span class="palabra-clave trigger-glosario">Envasado en Caliente</span></strong><span>Frascos esterilizados.</span><br><span class="datos-proceso">⚙️ T° envasado > 85°C (Genera vacío).</span></div>
+                <div class="flecha">⬇</div>
+                <div class="paso-flujo"><strong>Enfriamiento y Etiquetado</strong><span>Enfriar a T° ambiente (25°C).</span></div>
+            </div>
+        </div>
+
+        <!-- Bloque 4: Control de Calidad -->
+        <div class="bloque">
+            <div class="cinta amarilla">4. Control de Calidad (Producto Terminado)</div>
+            <div class="grid-calidad">
+                <div class="tarjeta-calidad">
+                    <div class="titulo">Sólidos Solubles (<span class="palabra-clave trigger-glosario">°Brix</span>)</div>
+                    <div class="valor">65 - 68 °Brix</div>
+                    <span style="font-size: 0.8rem; color: #666;">Medir con Refractómetro</span>
+                </div>
+                <div class="tarjeta-calidad">
+                    <div class="titulo">Potencial de Hidrógeno (<span class="palabra-clave trigger-glosario">pH</span>)</div>
+                    <div class="valor">≤ 4.5 pH</div>
+                    <span style="font-size: 0.8rem; color: #666;">Medir con Potenciómetro</span>
+                </div>
+                <div class="tarjeta-calidad">
+                    <div class="titulo">Temperatura de Envasado</div>
+                    <div class="valor">> 85 °C</div>
+                    <span style="font-size: 0.8rem; color: #666;">Medir con Termómetro</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloque 5: Trazabilidad y Firmas -->
+        <div class="bloque">
+            <div class="cinta azul">5. Trazabilidad y VoBo</div>
+            <div class="grid-trazabilidad">
+                <div class="campo-trazabilidad">
+                    <label for="lote">Número de Lote:</label>
+                    <input type="text" id="lote" placeholder="Ej: DIP-20260513">
+                </div>
+                <div class="campo-trazabilidad">
+                    <label for="fecha-elab">Fecha de Elaboración:</label>
+                    <input type="date" id="fecha-elab">
+                </div>
+                <div class="campo-trazabilidad">
+                    <label for="fecha-venc">Fecha de Vencimiento:</label>
+                    <input type="date" id="fecha-venc" readonly style="background: #f0f0f0;">
+                </div>
+                <div class="campo-trazabilidad">
+                    <label for="vida-util">Vida Útil (Meses):</label>
+                    <input type="text" id="vida-util" value="6 meses (producto ácido envasado en caliente)" readonly style="background: #f0f0f0;">
+                </div>
+            </div>
+            <div class="firmas">
+                <div class="firma-linea">Firma del Operario (Técnico)</div>
+                <div class="firma-linea">VoBo Instructor SENA</div>
+            </div>
+        </div>
+
+        <div class="banner-final">
+            Grupo 3441766 SENA (CAB)<br>
+            Técnico en Elaboración de Productos Alimenticios<br>
+            Recursos Educativos Abiertos - 2026
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- MODALES ---
+            const modalAyuda = document.getElementById('modalAyuda');
+            const modalGlosario = document.getElementById('modalGlosario');
+
+            function abrirAyuda() { modalAyuda.style.display = 'flex'; }
+            function cerrarAyuda() { modalAyuda.style.display = 'none'; }
+            function abrirGlosario() { modalGlosario.style.display = 'flex'; }
+            function cerrarGlosario() { modalGlosario.style.display = 'none'; }
+
+            document.getElementById('btn-abrir-ayuda').addEventListener('click', abrirAyuda);
+            document.getElementById('btn-cerrar-ayuda').addEventListener('click', cerrarAyuda);
+            document.getElementById('btn-abrir-glosario').addEventListener('click', abrirGlosario);
+            document.getElementById('btn-cerrar-glosario').addEventListener('click', cerrarGlosario);
+            document.getElementById('btn-imprimir').addEventListener('click', function() { window.print(); });
+
+            document.querySelectorAll('.trigger-glosario').forEach(el => {
+                el.addEventListener('click', abrirGlosario);
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target === modalAyuda) cerrarAyuda();
+                if (event.target === modalGlosario) cerrarGlosario();
+            });
+
+            // --- CHECKLIST BPM (CORREGIDO) ---
+            // Usamos 'change' en lugar de 'click' para evitar el doble disparo
+            document.querySelectorAll('.check-item input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const label = this.closest('.check-item');
+                    if (this.checked) {
+                        label.classList.add('completado');
+                    } else {
+                        label.classList.remove('completado');
+                    }
+                });
+            });
+
+            // --- FORMULACIÓN Y RENDIMIENTO ---
+            const form = { pimenton: 1.00, agua: 0.60, vinagre: 0.15, azucar: 0.25, sal: 0.0225 };
+
+            const inputs = {
+                pimenton: document.getElementById('input-pimenton'),
+                agua: document.getElementById('input-agua'),
+                vinagre: document.getElementById('input-vinagre'),
+                azucar: document.getElementById('input-azucar'),
+                sal: document.getElementById('input-sal')
+            };
+
+            const inputEvaporacion = document.getElementById('input-evaporacion');
+
+            function recalcularDesde(origen) {
+                let valorIngresado = parseFloat(inputs[origen].value);
+                if (isNaN(valorIngresado) || valorIngresado <= 0) return; 
+
+                let nuevoPimenton = (origen === 'pimenton') ? valorIngresado : (valorIngresado / form[origen]);
+
+                if (origen !== 'pimenton') inputs.pimenton.value = formatearInput(nuevoPimenton);
+                if (origen !== 'agua') inputs.agua.value = formatearInput(nuevoPimenton * form.agua);
+                if (origen !== 'vinagre') inputs.vinagre.value = formatearInput(nuevoPimenton * form.vinagre);
+                if (origen !== 'azucar') inputs.azucar.value = formatearInput(nuevoPimenton * form.azucar);
+                if (origen !== 'sal') inputs.sal.value = formatearInput(nuevoPimenton * form.sal);
+
+                actualizarRendimiento(nuevoPimenton);
+            }
+
+            function actualizarRendimiento(pimenton) {
+                const agua = pimenton * form.agua;
+                const vinagre = pimenton * form.vinagre;
+                const azucar = pimenton * form.azucar;
+                const sal = pimenton * form.sal;
+
+                let pctEvap = parseFloat(inputEvaporacion.value);
+                if (isNaN(pctEvap) || pctEvap < 0) pctEvap = 25;
+
+                const pesoTotalMezcla = pimenton + agua + vinagre + azucar + sal;
+                const perdidaEvaporacion = pesoTotalMezcla * (pctEvap / 100);
+                const productoFinal = pesoTotalMezcla - perdidaEvaporacion;
+
+                const frascosCompletos = Math.floor(productoFinal / 250);
+                const sobranteGramo = Math.round(productoFinal % 250);
+
+                document.getElementById('lbl-peso-total').innerText = formatearVista(pesoTotalMezcla);
+                document.getElementById('lbl-perdida').innerText = formatearVista(perdidaEvaporacion);
+                document.getElementById('lbl-producto-final').innerText = formatearVista(productoFinal);
+                
+                let textoFrascos = `${frascosCompletos} frascos de 250g`;
+                if (sobranteGramo > 0) {
+                    textoFrascos += ` + ${sobranteGramo}g sobrantes`;
+                }
+                document.getElementById('lbl-frascos').innerText = textoFrascos;
+            }
+
+            function formatearInput(num) { return Math.round(num * 100) / 100; }
+            function formatearVista(num) { return Number.isInteger(num) ? num : num.toFixed(1); }
+
+            Object.keys(inputs).forEach(key => {
+                inputs[key].addEventListener('input', () => recalcularDesde(key));
+                inputs[key].addEventListener('blur', function() {
+                    if (this.value === '' || parseFloat(this.value) <= 0) {
+                        this.value = (key === 'pimenton') ? 1000 : (1000 * form[key]);
+                        recalcularDesde('pimenton');
+                    }
+                });
+            });
+
+            inputEvaporacion.addEventListener('input', function() {
+                const val = parseFloat(inputs.pimenton.value) || 1000;
+                actualizarRendimiento(val);
+            });
+
+            // --- TRAZABILIDAD Y FECHAS ---
+            const fechaElab = document.getElementById('fecha-elab');
+            function calcularVencimiento() {
+                if (fechaElab.value) {
+                    let fecha = new Date(fechaElab.value + 'T00:00:00');
+                    fecha.setMonth(fecha.getMonth() + 6); 
+                    const yyyy = fecha.getFullYear();
+                    const mm = String(fecha.getMonth() + 1).padStart(2, '0');
+                    const dd = String(fecha.getDate()).padStart(2, '0');
+                    document.getElementById('fecha-venc').value = `${yyyy}-${mm}-${dd}`;
+                }
+            }
+
+            fechaElab.addEventListener('change', calcularVencimiento);
+
+            const hoy = new Date();
+            const yyyy = hoy.getFullYear();
+            const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+            const dd = String(hoy.getDate()).padStart(2, '0');
+            fechaElab.value = `${yyyy}-${mm}-${dd}`;
+            calcularVencimiento();
+
+            recalcularDesde('pimenton');
+        });
+    </script>
+</body>
+</html>
