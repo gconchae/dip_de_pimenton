@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El tablero mágico — Grado 6°</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+<main class="container" id="contenido-principal">
+
+  <nav class="top-nav-bar">
+    <a href="index.html" class="btn-back">← Volver al portal</a>
+    <div style="display: flex; gap: 0.5rem;">
+      <button id="btn-leer" class="btn-download-top" aria-label="Escuchar contenido de la página" style="cursor: pointer; font-family: inherit;">🔊 Escuchar</button>
+      <a href="pdf/grado6.pdf" download class="btn-download-top">📄 Guía PDF</a>
+    </div>
+  </nav>
+
+  <header class="header">
+    <span class="badge" style="background: var(--c-g6);">Grado 6° • Mirada Curiosa</span>
+    <h1 style="margin-top: 0.6rem;">🟠 El tablero mágico</h1>
+    <div class="sub">Adiós a la cinta adhesiva</div>
+  </header>
+
+  <section class="card orange">
+    <h2>🎨 ¿Qué es esta tabla llena de agujeros?</h2>
+    <p>Armar un circuito uniendo cables con cinta adhesiva o sosteniéndolos con los dedos puede ser una pesadilla: los cables se sueltan, hacen falso contacto y el LED parpadea.</p>
+    <p>Para resolver ese problema, los ingenieros inventaron un tablero de plástico lleno de agujeros llamado <strong>Protoboard</strong> (o placa de pruebas). Es como un LEGO para la electrónica: te permite conectar, probar y desconectar componentes en segundos sin usar soldadura.</p>
+
+    <figure class="figura-ruta figura-ruta--amplia">
+      <a href="img/protoboard_real.png" target="_blank" rel="noopener">
+        <img src="img/protoboard_real.png" alt="Fotografía real de una Protoboard blanca con una fuente de energía USB, interruptores DIP, resistencias y LEDs conectados" />
+      </a>
+      <figcaption>Fig. 1: Una protoboard real. Observa las líneas rojas y azules, los números y las letras. Todo tiene un orden secreto. <em>(Toca la imagen para ampliarla)</em></figcaption>
+    </figure>
+
+    <div class="highlight-box box-g6">
+      <p><strong>💡 Idea clave:</strong> los agujeros no están conectados al azar. Por debajo del plástico hay unas láminas de metal que unen ciertos huecos. Si sabes cómo están conectados, ¡puedes armar cualquier circuito!</p>
+    </div>
+  </section>
+
+  <section class="card">
+      <h2>🚦 ¿Cómo funciona por dentro?</h2>
+    <p>Aunque parece un montón de agujeros, sigue un patrón muy estricto. Vamos a dividirlo en dos partes: los rieles y el área central.</p>
+
+       <h3>1. Los rieles (La energía)</h3>
+    <p>Mira los bordes de la placa. Verás grupos de agujeros a los lados. En los extremos de esos rieles hay unos símbolos muy importantes: el signo <strong>(+)</strong> y el signo <strong>(-)</strong>. En las placas físicas suelen estar pintados de rojo y azul, pero en el simulador Tinkercad solo verás los signos. Por eso, en este curso usaremos siempre <strong>cables rojos para el (+)</strong> y <strong>cables negros o azules para el (-)</strong>. Pero ¡ojo con dos secretos!</p>
+    <ul>
+      <li>
+        <strong>El secreto de la mitad:</strong> En las protoboards grandes, el riel rojo de la izquierda <strong>no está conectado</strong> con el riel rojo de la derecha. Son dos mundos separados. Para unirlos, usamos un <strong>puente corto</strong> (un cable pequeño).
+      </li>
+      <li>
+        <strong>El secreto de arriba y abajo:</strong> El riel de arriba <strong>nunca</strong> está conectado internamente con el riel de abajo. Si quieres que la energía llegue a la parte inferior de la placa, debes usar un <strong>puente largo</strong> que vaya de arriba a abajo.
+      </li>
+    </ul>
+
+    <div class="highlight-box" style="border-left-color: #0ea5e9; background: #e0f2fe;">
+      <p><strong>🪢 La jerarquía de los puentes:</strong></p>
+      <ul style="margin-top: 0.6rem; margin-bottom: 0;">
+        <li><strong>Puentes cortos:</strong> unen las dos mitades del mismo riel (izquierda-derecha) o conectan nodos cercanos.</li>
+        <li><strong>Puentes largos:</strong> llevan la energía entre extremos distantes, principalmente de los rieles superiores a los inferiores.</li>
+      </ul>
+      <p style="margin-top: 0.6rem;"><strong>Regla de oro:</strong> une siempre <strong>rojo con rojo</strong> y <strong>azul con azul</strong>. ¡Nunca cruces los colores o harás un cortocircuito!</p>
+    </div>
+
+    <h3>2. El área central (Los componentes)</h3>
+    <p>Mira los agujeros del centro. Tienen letras (a, b, c, d, e) y números (1, 5, 10...). Cada grupo de 5 agujeros con la misma letra y número está conectado verticalmente. ¡Ahí van los componentes!</p>
+    <ul>
+      <li><strong>El canal del medio (La zanja):</strong> Hay un espacio vacío en el centro que interrumpe la conexión. Los 5 agujeros de arriba (a-e) <strong>nunca</strong> se tocan con los 5 agujeros de abajo (f-j).</li>
+      <li><strong>Si necesitas cruzar:</strong> Si la pata de un componente está en el bloque de arriba y necesitas que se conecte con uno de abajo, debes usar un cable puente que cruce la zanja.</li>
+    </ul>
+
+    <div class="highlight-box" style="border-left-color: #d97706; background: #fff8e1;">
+      <p><strong>📌 Nota sobre las coordenadas:</strong> Las letras y números no son un estándar universal. Los números siempre aumentan de izquierda a derecha. En las placas grandes (Figura 2) se usan letras <strong>mayúsculas (A, B, C...)</strong>. En las placas medianas o pequeñas (Figura 3), se usan <strong>minúsculas (a, b, c...)</strong>. Aunque las letras cambien, la posición física es la misma. En este curso, para no confundirnos y prepararnos para el diseño en software (como Gerber), <strong>usaremos las coordenadas de Tinkercad (minúsculas)</strong>. ¡Es como el plano cartesiano que ves en Matemáticas!</p>
+    </div> 
+
+    <div class="highlight-box box-g6">
+      <p><strong>🔍 Truco de detective:</strong> Si pones una pata de un componente en el agujero <strong>e5</strong> y otra pata en el agujero <strong>f5</strong>, ¡NO están conectados! La zanja central los separa. Para conectarlos, debes cruzar la zanja. Por ejemplo, en la Figura 2 (placa grande), observa cómo la resistencia va desde <strong>F</strong> hasta <strong>G</strong>. En la Figura 3 (placa mediana), la misma posición física se lee como <strong>f</strong> hasta <strong>d</strong>.</p>
+      <p style="margin-top: 0.5rem;"><em>(Nota importante: En el mundo real, las patas de los LEDs son suficientemente largas para cruzar la zanja, aunque a veces debas cortarlas con precaución. Sin embargo, en Tinkercad, el LED es muy pequeño y no alcanza a cruzar la franja. Por eso, en el taller lo ubicaremos horizontalmente en la fila <strong>g</strong>).</em></p>
+    </div>
+
+    <figure class="figura-ruta figura-ruta--amplia">
+      <a href="img/puentes_rieles.png" target="_blank" rel="noopener">
+        <img src="img/puentes_rieles.png" alt="Protoboard virtual de Tinkercad mostrando puentes cortos uniendo las mitades de los rieles superiores e inferiores, y puentes largos conectando los rieles superiores con los inferiores del mismo color." />
+      </a>
+      <figcaption>
+        Fig. 2: Los puentes que unen los rieles. Los cables cortos (horizontales) conectan las dos mitades de un mismo riel. Los cables largos (verticales) conectan el riel superior con el inferior. Observa que siempre se unen colores iguales (rojo con rojo, negro con negro). <em>(Toca la imagen para ampliarla)</em>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="card slate">
+    <h2>⚠️ ¡Cuidado con los cortocircuitos!</h2>
+    <p>Ahora que tienes una placa donde todo está conectado, hay un peligro nuevo: el <strong>cortocircuito</strong>.</p>
+    <p>Un cortocircuito pasa si conectas un cable directo del riel rojo (+) al riel azul (-) sin pasar por ningún componente (como un LED o una resistencia). La corriente viajará demasiado rápido y podría calentar los cables o dañar tu fuente de energía. <strong>¡Siempre debe haber un componente en el medio!</strong></p>
+  </section>
+
+  <section class="taller-electroscopio">
+    <h2>🔬 Taller: Explorando el tablero</h2>
+    <p>Vas a descubrir cómo están conectados los agujeros usando un LED, una resistencia y mucha curiosidad. Haremos el montaje en una <strong>protoboard pequeña</strong> (de 400 puntos o menos) para evitar complicaciones con los rieles.</p>
+
+    <div class="highlight-box">
+      <p><strong>💡 Dos formas de hacer este taller:</strong> puedes usar tu protoboard física o un simulador (como Tinkercad) en la computadora.</p>
+    </div>
+
+    <h3>🧰 Materiales</h3>
+    <ul>
+      <li>Protoboard pequeña (física o virtual).</li>
+      <li>Una fuente de energía de 5V (o pila de 3V CR2032).</li>
+      <li>Un LED.</li>
+      <li>Una resistencia de 330Ω.</li>
+      <li>Cables para puentes (jumpers).</li>
+    </ul>
+
+    <div class="nota-seguridad">
+      <p><strong>⚠️ Seguridad — Elementos de protección personal:</strong> si debes cortar cables o las patas del LED para ajustar su tamaño, hazlo sobre la mesa y usa gafas de seguridad para proteger tus ojos (las esquirlas de metal pueden saltar). Trabaja siempre con 3 V o 5 V. Nunca uses voltajes de pared (110 V o 220 V).</p>
+    </div>
+
+    <h3>🛠️ Reto de exploración</h3>
+    <ol>
+      <li><strong>Paso 1: Energía de extremo a extremo.</strong> Para comprobar que los rieles de arriba y abajo son independientes, conecta el cable rojo de la pila al riel superior <strong>(+)</strong>, y el cable negro al riel inferior <strong>(-)</strong>. <em>(Si usas Tinkercad: arrastra una "Breadboard Small", una batería CR2032, un LED, una resistencia y cables).</em></li>
+
+      <div style="text-align: center; margin: 25px 0;">
+        <figure class="figura-ruta figura-ruta--media">
+          <a href="img/conexion_carga_segura.png" target="_blank" rel="noopener">
+            <img src="img/conexion_carga_segura.png" alt="Esquema de una protoboard con la pila conectada a los rieles superior e inferior y una resistencia en el centro" />
+          </a>
+          <figcaption>
+            Fig. 3: La resistencia cruza la zanja (de f a d). No hay LED en esta figura para enfocarnos en cómo la carga evita el cortocircuito. <em>(Toca la imagen para ampliarla)</em>
+          </figcaption>
+        </figure>
+      </div>
+
+      <li><strong>Paso 2: El puente que cruza el sistema y cierra el circuito.</strong> Como la energía está arriba y abajo, usaremos puentes largos: conecta un cable rojo del riel superior (+) al hueco <strong>j5</strong> y un cable negro del riel inferior (-) al hueco <strong>a6</strong>. Ahora pon el LED en la fila <strong>g</strong> (pata larga en <strong>g5</strong>, pata corta en <strong>g6</strong>) y la resistencia en la columna 6 (de <strong>f6</strong> a <strong>d6</strong>). <strong>¿Qué pasa?</strong> La corriente baja por j5, pasa por el LED, sube por la resistencia y sale por a6. ¡El LED se ilumina y el circuito está cerrado!</li>
+
+      <div style="text-align: center; margin: 25px 0;">
+        <figure class="figura-ruta figura-ruta--amplia">
+          <a href="img/led_encendido.png" target="_blank" rel="noopener">
+            <img src="img/led_encendido.png" alt="Simulación en Tinkercad con el LED encendido, mostrando el flujo de energía desde el riel superior hasta el inferior" />
+          </a>
+          <figcaption>
+            Fig. 4: ¡El circuito está cerrado! El cable rojo baja hasta j5, pasa por el LED (g5 a g6), sube por la resistencia (f6 a d6) y sale por el cable negro en a6. El LED ilumina. <em>(Toca la imagen para ampliarla)</em>
+          </figcaption>
+        </figure>
+      </div>
+
+      <li><strong>Paso 3: El reto del corto (¡Solo en Tinkercad!).</strong> Aunque en la Figura 3 viste que unir los rieles directamente es peligroso, el simulador es el único lugar seguro para experimentar. Desconecta todo y conecta un cable directo del riel rojo (+) al azul (-). Verás una chispa o un aviso rojo. ¿Qué crees que pasaría si hicieras esto en la vida real? <strong>⚠️ Recuerda: NUNCA hagas esto en una protoboard física.</strong></li>
+    </ol>
+
+    <div class="highlight-box box-g6">
+      <p><strong>📝 Pregunta para la bitácora (si usaste el simulador):</strong> ¿Qué mensaje, sonido o imagen te mostró Tinkercad al hacer el corto? Descríbelo con tus palabras.</p>
+    </div>
+    </ol>
+
+    <div class="highlight-box box-g6">
+      <p><strong>🚀 Del tablero a la placa:</strong> Esta placa es genial para experimentar, pero es grande. Los aparatos electrónicos que usas a diario tienen sus conexiones en placas mucho más pequeñas. La diferencia está en el tamaño, no en el principio: los cables que usas aquí se convierten en <strong>pistas de cobre</strong> grabadas en la placa, y los agujeros se transforman en pequeños <strong>puntos de soldadura</strong> donde se fijan los componentes.</p>
+    </div>
+  </section>
+
+  <section class="capsula-edison">
+    <h2>📜 La historia del pan y la electrónica</h2>
+    <p>¿Sabías que el nombre <em>Protoboard</em> viene de la palabra inglesa <strong>"breadboard"</strong> (tabla para el pan)?</p>
+    <p>En los años 1920 y 1930, cuando la radio empezaba a hacerse popular, los aficionados no tenían placas de plástico como las de hoy. Literalmente, tomaban tablas de madera de sus cocinas (las mismas que usaban para cortar el pan) y clavaban los componentes y los cables con chinchetas para hacer sus experimentos. ¡Por eso se llaman "tablas de pan"!</p>
+    <p>Con el tiempo, la madera fue reemplazada por plástico y las chinchetas por contactos de metal, pero el nombre se quedó para siempre.</p>
+    <span class="fuente">Fuentes: archivos históricos de la radioafición y la evolución de las herramientas de prototipado.</span>
+  </section>
+
+  <h3 style="color: var(--text-dark); margin-top: 2rem; text-align: center;">🗺️ Repaso visual</h3>
+  <div class="placeholder-img placeholder-g6">
+    <p>📸 Infografía en preparación</p>
+    <p class="subtext">Muy pronto encontrarás aquí el mapa visual del Tablero Mágico.</p>
+  </div>
+
+  <section class="podcast-section podcast-g6">
+    <div class="podcast-header">
+      <span style="display: inline-block; background: rgba(255,255,255,0.25); color: #fff; font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.85rem; border-radius: 999px; margin-bottom: 0.6rem; letter-spacing: 0.04em;">🎧 Audio-Guía · Episodio 1</span>
+      <h3>El tablero mágico</h3>
+    </div>
+    <p style="font-size: 1.05rem; line-height: 1.5; margin: 0.3rem 0 0.6rem; color: #fff;"><strong>Dale play</strong> y en menos de 5 minutos descubrirás:</p>
+    <ul style="list-style: none; padding: 0; margin: 0 0 1.2rem; display: grid; gap: 0.55rem;">
+      <li style="display: flex; gap: 0.65rem; align-items: flex-start; background: rgba(255,255,255,0.15); padding: 0.7rem 0.9rem; border-radius: 10px; font-size: 0.95rem; line-height: 1.45; color: #fff;"><span style="font-size: 1.3em; flex-shrink: 0; line-height: 1;">🧱</span><span><strong>El LEGO electrónico:</strong> por qué esta tabla hace que armar circuitos sea divertido y seguro.</span></li>
+      <li style="display: flex; gap: 0.65rem; align-items: flex-start; background: rgba(255,255,255,0.15); padding: 0.7rem 0.9rem; border-radius: 10px; font-size: 0.95rem; line-height: 1.45; color: #fff;"><span style="font-size: 1.3em; flex-shrink: 0; line-height: 1;">🔍</span><span><strong>Los agujeros secretos:</strong> cómo se conectan por dentro las columnas y los rieles.</span></li>
+      <li style="display: flex; gap: 0.65rem; align-items: flex-start; background: rgba(255,255,255,0.15); padding: 0.7rem 0.9rem; border-radius: 10px; font-size: 0.95rem; line-height: 1.45; color: #fff;"><span style="font-size: 1.3em; flex-shrink: 0; line-height: 1;">⚠️</span><span><strong>El enemigo número 1:</strong> qué es un cortocircuito y cómo evitarlo.</span></li>
+    </ul>
+    <div class="podcast-player">
+      <audio controls preload="metadata"><source src="audio/grado6.mp3" type="audio/mpeg" />Tu navegador no soporta el reproductor de audio.</audio>
+    </div>
+    <p style="margin-top: 0.8rem; font-size: 0.9rem; text-align: center;">
+      <a href="audio/grado6.mp3" download style="color: #fff; text-decoration: underline;">⬇️ Descargar audio</a>
+      &nbsp;·&nbsp;
+      <a href="pdf/grado6.pdf" download style="color: #fff; text-decoration: underline;">📄 Descargar guía (transcripción)</a>
+    </p>
+  </section>
+
+  <div class="highlight-box box-g6">
+    <p>
+      <strong>🧠 Conexión con la IA: conexiones que no se ven.</strong> Cuando descubriste que <strong>a5</strong> y <strong>c5</strong> estaban conectados, no lo viste: lo dedujiste. Debajo del plástico hay una lámina de metal que une esos agujeros. Los chips que ejecutan IA también tienen <strong>conexiones que no se ven</strong>: millones de cables microscópicos que unen millones de interruptores. Para entender cómo funciona un chip, hay que descubrir su mapa de conexiones, igual que descubriste el de la protoboard probando con el LED.
+    </p>
+    <p style="margin-top: 0.6rem;">
+      <strong>Pregunta:</strong> si tuvieras que descubrir qué agujeros de la protoboard están conectados sin poder ver debajo del plástico, ¿qué harías? ¿Qué crees que hacen los ingenieros para descubrir las conexiones de un chip?
+    </p>
+  </div>
+
+  <section class="cierre-metacognitivo">
+    <h3>🧠 Cierre: ¿Qué descubriste hoy?</h3>
+    <p><strong>Sobre lo que aprendiste:</strong></p>
+    <ul>
+      <li>¿Por qué los rieles (bordes) se comparan con autopistas?</li>
+      <li>¿Qué pasa si dos componentes están en la misma columna vertical?</li>
+      <li>¿Por qué es peligroso unir el riel rojo (+) directamente con el azul (-)?</li>
+      <li>¿Qué diferencia hay entre usar puentes cortos y puentes largos?</li>
+      <li>Si comparas Tinkercad con una protoboard física, ¿qué ventajas tiene el simulador y qué ventajas tiene armar el circuito con tus propias manos?</li>
+    </ul>
+  </section>
+
+  <section class="info-familia">
+    <h3>🏡 Orientación para padres y cuidadores</h3>
+    <p>Esta ruta incluye actividades prácticas que pueden hacerse en casa, pero <strong>ninguna requiere que usted firme nada</strong>. Pídale a su hijo/a que le explique cómo se conectan las columnas de la protoboard usando el truco del detective. <strong>No se requiere firma.</strong></p>
+  </section>
+
+  <nav class="nav-estaciones">
+    <p class="nav-intro nav-intro-g6"><strong>🛠️ Descubriste el tablero mágico.</strong> Los otros cinco enfoques te esperan.</p>
+    <div class="nav-estaciones-links">
+      <a href="grado7.html"  class="btn-estacion">🔵 Mirada comparativa (Grado 7°)</a>
+      <a href="grado8.html"  class="btn-estacion">🟣 Mirada estructural (Grado 8°)</a>
+      <a href="grado9.html"  class="btn-estacion">🌐 Mirada sistémica (Grado 9°)</a>
+      <a href="grado10.html" class="btn-estacion">🟢 Mirada analítica (Grado 10°)</a>
+      <a href="grado11.html" class="btn-estacion">🔴 Mirada experta (Grado 11°)</a>
+    </div>
+  </nav>
+
+  <footer class="footer">
+    <p>I.E. Escuela Normal Superior Miguel de Cervantes Saavedra – Guacarí<br />Tecnología e Informática • Prof. José Vicente Concha Escobar</p>
+  </footer>
+
+  <script src="../js/lector.js"></script>  
+</main>
+</body>
+</html>
