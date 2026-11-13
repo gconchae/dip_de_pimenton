@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El cableado perfecto — Grado 8°</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+<main class="container" id="contenido-principal">
+
+  <nav class="top-nav-bar">
+    <a href="index.html" class="btn-back">← Volver al portal</a>
+    <div style="display: flex; gap: 0.5rem;">
+      <button id="btn-leer" class="btn-download-top" aria-label="Escuchar contenido de la página" style="cursor: pointer; font-family: inherit;">🔊 Escuchar</button>
+      <a href="pdf/grado8.pdf" download class="btn-download-top">📄 Guía PDF</a>
+    </div>
+  </nav>
+
+  <header class="header">
+    <span class="badge" style="background: var(--c-g8);">Grado 8° • Mirada Estructural</span>
+    <h1 style="margin-top: 0.6rem;">🟣 El cableado perfecto</h1>
+    <div class="sub">Coordenadas, nodos y protección</div>
+  </header>
+
+  <section class="card purple">
+    <h2>🗺️ Cómo dar direcciones exactas</h2>
+    <p>La protoboard parece un laberinto aleatorio, pero tiene un sistema de coordenadas estricto (como una batalla naval). Para que dos ingenieros puedan comunicarse sin errores, usamos las letras y los números impresos en el plástico.</p>
+    <ul>
+      <li><strong>Letras:</strong> Van de la <strong>"a" a la "e"</strong> en la mitad superior, y de la <strong>"f" a la "j"</strong> en la mitad inferior.</li>
+      <li><strong>Números:</strong> Identifican las columnas y están marcados <strong>de 5 en 5</strong> (5, 10, 15, 20...).</li>
+    </ul>
+    <div class="highlight-box" style="border-left-color: var(--c-g8); background: #f5f3ff;">
+      <p><strong>💡 Ejemplo de dirección:</strong> Si te digo "conecta la resistencia en <strong>c15</strong>", significa que debes usar el agujero de la fila <strong>c</strong>, columna <strong>15</strong>.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🔗 El secreto del Nodo (Línea a columna)</h2>
+    <p>En los esquemáticos dibujamos líneas para unir componentes. En la protoboard, <strong>una línea se convierte en una columna compartida</strong>.</p>
+
+    <figure class="figura-ruta figura-ruta--amplia">
+      <a href="img/diagrama_nodo.png" target="_blank" rel="noopener">
+        <img src="img/diagrama_nodo.png" alt="Diagrama esquemático de 5V pasando por una resistencia R1, luego un LED y terminando en tierra" />
+      </a>
+      <figcaption>Fig. 1: El esquema eléctrico. La línea entre R1 y el LED es un nodo. <em>(Toca la imagen para ampliarla)</em></figcaption>
+    </figure>
+
+    <p>Para que la resistencia y el LED estén conectados como en el dibujo, ambos deben tener una pata en la <strong>misma columna vertical</strong>. Por ejemplo, si la pata de la resistencia baja hasta la columna 6 (fila b) y la pata del LED sube hasta la columna 6 (fila e), están conectados internamente por la lámina de metal.</p>
+
+    <div class="highlight-box" style="border-left-color: #dc2626; background: #ffebee;">
+      <p><strong>⚠️ El peligro del cortocircuito:</strong> Nunca conectes un cable directo del riel rojo (+) al riel azul (-). Al no haber resistencia, la corriente se desbocará y dañará la fuente. <strong>Siempre debe haber un componente en el medio.</strong></p>
+    </div>
+  </section>
+
+  <section class="card slate">
+    <h2>🛡️ El Diodo Guardián y el Riel Partido</h2>
+    <p>Aquí hay dos secretos que los principiantes suelen ignorar y que arruinan sus circuitos:</p>
+
+    <h3>1. La Trampa del Riel Partido</h3>
+    <p>En muchas protoboards grandes (por ejemplo, las de 830 puntos), los rieles de alimentación —las líneas roja y azul de los bordes— están <strong>divididos en dos segmentos independientes</strong> justo en la mitad de la placa. Esto significa que la energía conectada en un extremo <strong>no llega automáticamente</strong> al otro. En las protoboards más pequeñas (como las de 400 puntos) los rieles suelen ser continuos, pero no siempre: la única forma segura de saberlo es verificar.</p>
+    <p><strong>¿Cómo saber si tu protoboard tiene el riel partido?</strong> Usa el <strong>modo continuidad</strong> del multímetro que verás más adelante en esta misma lección. Pon una punta en un extremo del riel rojo y la otra en el otro extremo. Si el multímetro hace "bip", el riel es continuo. Si no dice nada, el riel está partido. Repite la prueba con el riel azul.</p>
+    <p><strong>¿Cómo solucionarlo?</strong> Si el riel está partido, coloca un <strong>cable puente (jumper)</strong> que una las dos mitades de cada riel: uno para el rojo y otro para el azul. Si además necesitas que la alimentación llegue a los rieles superiores y a los inferiores, instala puentes adicionales que conecten el riel superior con el inferior, <strong>respetando siempre la polaridad</strong>: positivo con positivo (+) y negativo con negativo (−). Si no respetas la polaridad, crearás un <strong>cortocircuito</strong>.</p>
+    <p><strong>Un dato estructural:</strong> el riel partido no siempre es un defecto. En algunas protoboards, la división permite alimentar dos secciones con <strong>voltajes distintos</strong> (por ejemplo, 5 V en una mitad y 3.3 V en la otra). Entender por qué está partido es tan importante como saber cómo solucionarlo.</p>
+
+    <h3>2. El Truco del Diodo Guardián</h3>
+    <p>¿Alguna vez has conectado la energía al revés? Si lo haces, tus chips se quemarán por "polaridad inversa". Para evitarlo, los ingenieros usan un <strong>diodo rectificador (1N4007)</strong> entre la fuente y el riel de la protoboard. El diodo deja pasar la corriente en un solo sentido: si conectas la energía bien, pasa; si la conectas al revés, la bloquea y protege el circuito.</p>
+
+    <h3>3. La prueba de continuidad: el "pito mágico"</h3>
+    <p>Para saber si dos agujeros de la protoboard están realmente conectados, o si un cable está roto, no necesitas adivinar. Usa el multímetro en el <strong>modo continuidad</strong> (el que tiene el símbolo de un diodo o un zumbido, a veces llamado "el pito").</p>
+    <ol>
+      <li>Gira la perilla del multímetro al símbolo de continuidad (🔊).</li>
+      <li>Pon una punta del multímetro en el agujero A.</li>
+      <li>Pon la otra punta en el agujero B.</li>
+      <li>Si el multímetro hace <strong>"bip"</strong>, están conectados internamente por la lámina de metal. Si no dice nada, están aislados.</li>
+    </ol>
+    <div class="highlight-box" style="border-left-color: #0ea5e9; background: #e0f2fe;">
+      <p><strong>🔊 ¿Por qué es tan útil?</strong> El modo continuidad es tu mejor aliado cuando algo no funciona. Antes de culpar al LED o a la pila, verifica con el "pito" si el cable está bien conectado. Muchas veces, el problema es un cable suelto o una pista rota. ¡Es el diagnóstico más rápido del taller!</p>
+    </div>
+
+    <figure class="figura-ruta figura-ruta--amplia">
+      <a href="img/protoboard_cableado_seguro.png" target="_blank" rel="noopener">
+        <img src="img/protoboard_cableado_seguro.png" alt="Protoboard con un diodo guardián, un LED testigo y puentes en los rieles" />
+      </a>
+      <figcaption>Fig. 2: Cableado profesional. El diodo bloquea la corriente si te equivocas de polaridad, y el LED testigo te confirma que hay energía. <em>(Toca la imagen para ampliarla)</em></figcaption>
+    </figure>
+    
+    <figure class="figura-ruta figura-ruta--amplia">
+      <a href="img/infografia_riel_partido.png" target="_blank" rel="noopener">
+        <img src="img/infografia_riel_partido.png" alt="Infografía: La trampa del riel partido. Muestra los rieles divididos en protoboards grandes, los continuos en las pequeñas, cómo verificarlo con el multímetro en modo continuidad, cómo solucionarlo con puentes y el dato de alimentar dos secciones con voltajes distintos (5V y 3.3V)" />
+      </a>
+      <figcaption><strong>🗺️ Infografía: La trampa del riel partido.</strong> Resume los cuatro puntos clave: cómo es el riel en placas grandes y pequeñas, cómo verificar si está partido con el multímetro, cómo solucionarlo con puentes y por qué no siempre es un defecto. <em>(Toca la imagen para ampliarla)</em></figcaption>
+    </figure>    
+  </section>
+
+  <section class="taller-electroscopio">
+    <h2>🔬 Taller: Construcción del circuito</h2>
+    <p>Vas a traducir el esquema de la Fig. 1 a la protoboard física, siguiendo un orden estricto de nodos y coordenadas. Antes de empezar, asegúrate de tener todos los materiales y de saber usar el multímetro.</p>
+
+    <div class="highlight-box" style="border-left-color: #0ea5e9; background: #e0f2fe; margin-bottom: 1.5rem;">
+      <h3 style="margin-top: 0; color: #0d47a1; font-size: 1.1rem;">🔬 El multímetro: tu ojo biónico en la protoboard</h3>
+      <p style="font-size: 0.95rem; color: #0d47a1;">Antes de montar el circuito, vamos a aprender a usar dos modos del multímetro que serán tus mejores aliados en el taller:</p>
+      
+      <h4 style="color: #0d47a1; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem;">🔊 Modo 1: Continuidad (El "pito mágico")</h4>
+      <p style="font-size: 0.95rem; color: #0d47a1;">Sirve para saber si dos puntos están conectados eléctricamente.</p>
+      <ol style="margin-top: 0.6rem; margin-bottom: 1rem; color: #0d47a1;">
+        <li>Gira la perilla del multímetro al símbolo de continuidad (🔊) o al de un diodo.</li>
+        <li>Pon una punta en un agujero de la protoboard (ej. a5) y la otra en otro agujero (ej. c5).</li>
+        <li>Si el multímetro hace <strong>"bip"</strong>, los agujeros están conectados internamente por la lámina de metal. Si no dice nada, están aislados.</li>
+      </ol>
+
+      <h4 style="color: #0d47a1; font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem;">⚙️ Modo 2: Resistencia (Ω)</h4>
+      <p style="font-size: 0.95rem; color: #0d47a1;">Sirve para medir el valor real de una resistencia y compararlo con el código de colores.</p>
+      <ol style="margin-top: 0.6rem; margin-bottom: 1rem; color: #0d47a1;">
+        <li>Gira la perilla al símbolo de ohmios (Ω). Elige un rango mayor que la resistencia que esperas medir (por ejemplo, 2000Ω si esperas medir cientos de ohmios).</li>
+        <li>Desconecta la resistencia del circuito (si está montada) y asegúrate de que no tenga energía.</li>
+        <li>Toca con la punta roja un extremo de la resistencia y con la negra el otro. No importa cuál va a cada lado.</li>
+        <li>Lee el valor en la pantalla. Si aparece "OL", sube a un rango mayor.</li>
+      </ol>
+
+      <div class="highlight-box" style="border-left-color: #d97706; background: #fff8e1; margin-top: 0.5rem;">
+        <p style="font-size: 0.9rem; color: #92400e; margin-bottom: 0;">
+          <strong>🔍 ¿Qué significa el resultado?</strong> Si el valor medido está dentro del rango de tolerancia (por ejemplo, 330Ω ±5% = 313Ω a 346Ω), la resistencia está en buen estado. Si está muy lejos, puede estar dañada o tener un valor distinto.
+        </p>
+      </div>
+    </div>
+
+    <h3>🧰 Materiales (reúne todo antes de empezar)</h3>
+    <ul>
+      <li>Protoboard y cables puente.</li>
+      <li>Fuente de 5V (pila, módulo USB o fuente de laboratorio).</li>
+      <li>Un LED.</li>
+      <li>Una resistencia de 330Ω.</li>
+      <li>Un multímetro (con modo continuidad y modo resistencia).</li>
+      <li>Un diodo 1N4007 (opcional, para el guardián).</li>
+    </ul>
+
+    <div class="nota-seguridad">
+      <p><strong>⚠️ Seguridad — Elementos de protección personal:</strong> si debes cortar cables para ajustar su tamaño, hazlo sobre la mesa y usa gafas de seguridad para proteger tus ojos. Verifica dos veces las conexiones antes de encender. Nunca uses voltajes de pared.</p>
+    </div>
+
+    <h3>🛠️ Procedimiento paso a paso</h3>
+    <ol>
+      <li><strong>Fila A (La fuente):</strong> Conecta el cable rojo de la fuente al riel rojo. Conecta un puente del riel rojo al hueco <strong>a2</strong>.</li>
+      <li><strong>El nodo (Fila B):</strong> Inserta la primera pata de la resistencia en <strong>b2</strong> y la segunda en <strong>b6</strong> (horizontal).</li>
+      <li><strong>El LED:</strong> Conecta la pata larga (ánodo) en <strong>e6</strong> y la pata corta (cátodo) en <strong>e7</strong>.</li>
+      <li><strong>El desagüe:</strong> Conecta un cable del hueco <strong>a7</strong> al riel azul (-).</li>
+      <li><strong>Verificación:</strong> Usa el modo continuidad del multímetro para comprobar que el nodo (b2-b6) está conectado y que el LED (e6-e7) no está en corto. Luego, enciende la fuente y verifica que el LED brille.</li>
+    </ol>
+
+    <div class="highlight-box" style="border-left-color: var(--c-g8); background: #f5f3ff; margin-top: 1.5rem;">
+      <p><strong>🚀 Del cableado al diseño:</strong> el cableado ordenado, las coordenadas y la verificación de continuidad que hiciste aquí son las mismas habilidades que se necesitan para diseñar una placa de fabricación real. Un buen diseño empieza por un buen cableado, y un buen cableado empieza por verificar cada conexión.</p>
+    </div>
+  </section>
+
+  <div class="highlight-box" style="border-left-color: var(--c-g8); background: #f5f3ff;">
+    <p>
+      <strong>🧠 Conexión con la IA: puntos ciegos que no se ven.</strong> Como viste en esta misma lección, el <strong>riel partido</strong> parece continuo: si conectas la energía en el extremo izquierdo, los componentes de la izquierda funcionan. Pero en la mitad hay un corte, y los componentes de la derecha no reciben nada. Un sistema de IA que solo se prueba con un tipo de información tiene el mismo problema: funciona con lo que conoce, pero falla con lo que no conoce. Es un <strong>punto ciego</strong>. Y como el riel partido, el punto ciego no se ve a simple vista: hay que probar con casos distintos para descubrirlo.
+    </p>
+    <p style="margin-top: 0.6rem;">
+      <strong>Pregunta:</strong> si el riel de la protoboard se corta en la mitad y tú solo verificas la mitad izquierda, ¿qué pasará cuando conectes algo en la mitad derecha? ¿Qué relación tiene eso con un sistema de IA que solo se probó con un tipo de información?
+    </p>
+  </div>
+
+  <section class="cierre-metacognitivo">
+    <h3>🧠 Cierre: Pensar como ingeniero de montaje</h3>
+    <p><strong>Sobre lo que aprendiste:</strong></p>
+    <ul>
+      <li>¿Cómo se identifica un nodo compartido en un esquema y en la placa?</li>
+      <li>¿Por qué es peligroso conectar los rieles directamente?</li>
+      <li>¿Cómo evita el diodo 1N4007 que quemes tus componentes?</li>
+      <li>¿Cómo puedes usar el modo continuidad del multímetro para verificar si el riel está partido?</li>
+    </ul>
+    <p style="margin-top: 1rem;"><strong>Sobre tu proceso:</strong></p>
+    <ul>
+      <li>¿Qué descubriste hoy que no sabías antes?</li>
+      <li>¿Qué fue lo que más te costó entender o hacer?</li>
+      <li>¿Para qué te sirve lo que aprendiste hoy fuera del salón?</li>
+    </ul>
+  </section>
+
+  <section class="info-familia">
+    <h3>🏡 Orientación para padres y cuidadores</h3>
+    <p>Esta ruta incluye actividades prácticas que pueden hacerse en casa, pero <strong>ninguna requiere que usted firme nada</strong>. Pídale a su hijo/a que le explique por qué el diodo guardián protege el circuito si se conecta la energía al revés. <strong>No se requiere firma.</strong></p>
+  </section>
+
+  <nav class="nav-estaciones">
+    <p style="margin-bottom: 0.8rem; padding: 0.8rem 1rem; background: #f5f3ff; border-left: 4px solid var(--c-g8); border-radius: 0 8px 8px 0; font-size: 0.94rem; color: var(--text-mid);"><strong>🟣 Hiciste un cableado perfecto.</strong> Los otros cinco enfoques te esperan.</p>
+    <div class="nav-estaciones-links">
+      <a href="grado6.html"  class="btn-estacion">🟠 Mirada curiosa (Grado 6°)</a>
+      <a href="grado7.html"  class="btn-estacion">🔵 Mirada comparativa (Grado 7°)</a>
+      <a href="grado9.html"  class="btn-estacion">🌐 Mirada sistémica (Grado 9°)</a>
+      <a href="grado10.html" class="btn-estacion">🟢 Mirada analítica (Grado 10°)</a>
+      <a href="grado11.html" class="btn-estacion">🔴 Mirada experta (Grado 11°)</a>
+    </div>
+  </nav>
+
+  <footer class="footer">
+    <p>I.E. Escuela Normal Superior Miguel de Cervantes Saavedra – Guacarí<br />Tecnología e Informática • Prof. José Vicente Concha Escobar</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnLeer = document.getElementById('btn-leer');
+      let leyendo = false;
+      let utterance = null;
+
+      if ('speechSynthesis' in window) {
+        const synth = window.speechSynthesis;
+
+        btnLeer.addEventListener('click', () => {
+          if (leyendo) {
+            synth.cancel(); // Detiene la lectura
+            btnLeer.innerHTML = '🔊 Escuchar';
+            leyendo = false;
+          } else {
+            // Selecciona el texto del contenido principal (ignora el menú y el pie de página)
+            const contenido = document.querySelector('main').innerText;
+            
+            // Limpia el texto: quita emojis para que no los lea como "cara sonriente"
+            const textoLimpio = contenido.replace(/[\u{1F600}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
+
+            utterance = new SpeechSynthesisUtterance(textoLimpio);
+            utterance.lang = 'es-CO'; // Acento colombiano
+            utterance.rate = 1; // Velocidad normal
+
+            utterance.onstart = () => {
+              btnLeer.innerHTML = '⏹️ Detener';
+              leyendo = true;
+            };
+
+            utterance.onend = () => {
+              btnLeer.innerHTML = '🔊 Escuchar';
+              leyendo = false;
+            };
+
+            synth.speak(utterance);
+          }
+        });
+      } else {
+        btnLeer.style.display = 'none'; // Si el navegador es viejo, oculta el botón
+        console.warn('Tu navegador no soporta la síntesis de voz.');
+      }
+    });
+  </script>
+</main>
+</main>
+</body>
+</html>
